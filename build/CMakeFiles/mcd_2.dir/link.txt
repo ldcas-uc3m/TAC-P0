@@ -1,0 +1,1 @@
+/usr/bin/g++ -O3 -DNDEBUG CMakeFiles/mcd_2.dir/src/mcd_2.cpp.o -o mcd_2 

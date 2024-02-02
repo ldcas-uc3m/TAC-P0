@@ -1,0 +1,4 @@
+/home/ldcas/Code/TAC-P0/build/CMakeFiles/mcd_1.dir
+/home/ldcas/Code/TAC-P0/build/CMakeFiles/primos.dir
+/home/ldcas/Code/TAC-P0/build/CMakeFiles/edit_cache.dir
+/home/ldcas/Code/TAC-P0/build/CMakeFiles/rebuild_cache.dir

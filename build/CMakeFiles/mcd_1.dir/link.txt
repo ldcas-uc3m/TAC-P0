@@ -1,0 +1,1 @@
+/usr/bin/g++ -g CMakeFiles/mcd_1.dir/src/mcd_1.cpp.o -o mcd_1 

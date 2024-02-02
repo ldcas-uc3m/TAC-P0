@@ -1,0 +1,1 @@
+/usr/bin/g++ -g CMakeFiles/primos.dir/src/primos.cpp.o -o primos 

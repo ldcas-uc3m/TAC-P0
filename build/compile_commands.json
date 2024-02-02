@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/ldcas/Code/TAC-P0/build",
+  "command": "/usr/bin/g++   -g -std=c++23   -std=c++23 -Wall -Werror -Wextra -pedantic -pedantic-errors -fPIC -o CMakeFiles/mcd_1.dir/src/mcd_1.cpp.o -c /home/ldcas/Code/TAC-P0/src/mcd_1.cpp",
+  "file": "/home/ldcas/Code/TAC-P0/src/mcd_1.cpp",
+  "output": "CMakeFiles/mcd_1.dir/src/mcd_1.cpp.o"
+},
+{
+  "directory": "/home/ldcas/Code/TAC-P0/build",
+  "command": "/usr/bin/g++   -g -std=c++23   -std=c++23 -Wall -Werror -Wextra -pedantic -pedantic-errors -fPIC -o CMakeFiles/primos.dir/src/primos.cpp.o -c /home/ldcas/Code/TAC-P0/src/primos.cpp",
+  "file": "/home/ldcas/Code/TAC-P0/src/primos.cpp",
+  "output": "CMakeFiles/primos.dir/src/primos.cpp.o"
+}
+]
