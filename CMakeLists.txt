@@ -21,5 +21,4 @@ endif()
 
 
 # include targets
-add_executable(mcd_1 "src/mcd_1.cpp")
-add_executable(primos "src/primos.cpp")
+add_subdirectory(src/gcd)

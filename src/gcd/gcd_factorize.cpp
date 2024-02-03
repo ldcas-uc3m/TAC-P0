@@ -1,13 +1,11 @@
 #include <iostream>
-#include <chrono>
 #include <cmath>
-#include <iterator>
 #include <concepts>
 #include <map>
 #include <stdexcept>
-#include <numeric>
-
+#include <string>
 #include <random>
+#include <chrono>
 
 
 
@@ -44,7 +42,7 @@ template <std::integral INT_T>
 /**
 * @brief Returns the Greatest Common Denominator in between a and b
 */
-INT_T mcd(INT_T a, INT_T b) {
+INT_T gcd_factorize(INT_T a, INT_T b) {
 
     // base cases
 
@@ -84,39 +82,71 @@ INT_T mcd(INT_T a, INT_T b) {
 }
 
 
+/* TESTS */
 
-inline void test_many(std::size_t max) {
+template <std::integral INT_T>
+void check_many(INT_T max) {
+
+    std::cout << "performing tests up to " << max << "...\n";
+
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(0, max);
 
-    for (std::size_t _ = 0; _ < max; ++_) {
-        std::size_t a = dist(rng);
-        std::size_t b = dist(rng);
+    auto tic = std::chrono::high_resolution_clock::now();
 
-        if (std::gcd(a, b) != mcd(a, b)) {
-            std::cout << "ERROR in ";
+    for (INT_T _ = 0; _ < max; ++_) {
+        INT_T a = dist(rng);
+        INT_T b = dist(rng);
+
+        INT_T result1 = gcd_factorize(a, b);
+
+        if (std::gcd(a, b) != result1) {
+            std::cout << "ERROR: ";
             std::cout << "a=" << a << "; b=" << b << "\n";
             std::cout << "STL: " << std::gcd(a, b) << "; ";
-            std::cout << "US: " << mcd(a, b) << "\n";
+            std::cout << "US: " << result1 << "\n";
 
             return;
         }
     }
-}
 
-
-inline void test_one(std::size_t a, std::size_t b) {
-    std::cout << "a=" << a << "; b=" << b << "\n";
-    std::cout << "STL: " << std::gcd(a, b) << "; ";
-    std::cout << "US: " << mcd(a, b) << "\n";
-}
-
-
-int main() {
-
-    test_many(76878);
     std::cout << "all good!\n";
 
-    return 0;
+    auto toc = std::chrono::high_resolution_clock::now();
+    std::cout << "took " << std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic).count() << "ms\n";
+}
+
+
+template <std::integral INT_T>
+void check_one(INT_T a, INT_T b) {
+    std::cout << "a=" << a << "; b=" << b << "\n";
+    std::cout << "std::gcd: " << std::gcd(a, b) << "; ";
+    std::cout << "gcd_factorize: " << gcd_factorize(a, b) << "\n";
+}
+
+
+
+/* MAIN */
+
+int main(int argc, char* argv[]) {
+
+    switch (argc) {
+        case 1:
+            check_many(static_cast<std::size_t>(std::pow(2, 16)));
+            return 0;
+
+        case 2:
+            check_many(static_cast<std::size_t>(std::pow(2, std::stoll(argv[1]))));
+            return 0;
+
+        case 3:
+            std::cout << gcd_factorize(std::stoll(argv[1]), std::stoll(argv[2])) << "\n";
+            return 0;
+
+        default:
+            std::cerr << "Invalid number of arguments\n";
+            return -1;
+    }
+
 }
