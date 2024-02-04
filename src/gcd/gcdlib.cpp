@@ -37,7 +37,6 @@ std::map<INT_T, INT_T> factorize(INT_T n) {
 }
 
 
-
 template <std::integral INT_T>
 /**
 * @brief Returns the Greatest Common Denominator in between a and b
@@ -82,71 +81,70 @@ INT_T gcd_factorize(INT_T a, INT_T b) {
 }
 
 
-/* TESTS */
-
 template <std::integral INT_T>
-void check_many(INT_T max) {
+/**
+* @brief Returns the Greatest Common Denominator in between a and b
+*/
+INT_T gcd_euclid(INT_T a, INT_T b) {
+    if (a == b) return a;
 
-    std::cout << "performing tests up to " << max << "...\n";
+    while (b > 0) {
+        INT_T r = a % b;
 
-    std::random_device dev;
-    std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(0, max);
-
-    auto tic = std::chrono::high_resolution_clock::now();
-
-    for (INT_T _ = 0; _ < max; ++_) {
-        INT_T a = dist(rng);
-        INT_T b = dist(rng);
-
-        INT_T result1 = gcd_factorize(a, b);
-
-        if (std::gcd(a, b) != result1) {
-            std::cout << "ERROR: ";
-            std::cout << "a=" << a << "; b=" << b << "\n";
-            std::cout << "STL: " << std::gcd(a, b) << "; ";
-            std::cout << "US: " << result1 << "\n";
-
-            return;
-        }
+        // gcd_euclid(m, r)
+        a = b;
+        b = r;
     }
 
-    std::cout << "all good!\n";
-
-    auto toc = std::chrono::high_resolution_clock::now();
-    std::cout << "took " << std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic).count() << "ms\n";
+    return a;
 }
 
 
 template <std::integral INT_T>
-void check_one(INT_T a, INT_T b) {
-    std::cout << "a=" << a << "; b=" << b << "\n";
-    std::cout << "std::gcd: " << std::gcd(a, b) << "; ";
-    std::cout << "gcd_factorize: " << gcd_factorize(a, b) << "\n";
+/**
+* @brief Returns the Greatest Common Denominator in between a and b
+*/
+INT_T gcd_euclid_rec(INT_T a, INT_T b) {
+    if (b == 0) return a;
+
+    return gcd_euclid_rec(b, a % b);
 }
 
 
 
-/* MAIN */
 
-int main(int argc, char* argv[]) {
+// pybind11
+#ifdef PYBIND11
 
-    switch (argc) {
-        case 1:
-            check_many(static_cast<std::size_t>(std::pow(2, 16)));
-            return 0;
+#include <pybind11/pybind11.h>
 
-        case 2:
-            check_many(static_cast<std::size_t>(std::pow(2, std::stoll(argv[1]))));
-            return 0;
+namespace py = pybind11;
 
-        case 3:
-            std::cout << gcd_factorize(std::stoll(argv[1]), std::stoll(argv[2])) << "\n";
-            return 0;
+PYBIND11_MODULE(gcdlib, m) {
 
-        default:
-            std::cerr << "Invalid number of arguments\n";
-            return -1;
-    }
+    #ifdef __MINGW32__
+    py::options options;
+    options.disable_function_signatures();
+    #endif
 
+    m.doc() = "C++ Greatest Common Denominator implementations";
+
+    // functions
+    m.def(
+        "gcd_factorize", &(gcd_factorize<int64_t>),
+        "Returns the Greatest Common Denominator in between a and b, using factorization",
+        py::arg("a"), py::arg("b")
+    );
+    m.def(
+        "gcd_euclid", &(gcd_euclid<int64_t>),
+        "Returns the Greatest Common Denominator in between a and b, the euclidean algorithm",
+        py::arg("a"), py::arg("b")
+    );
+    m.def(
+        "gcd_euclid_rec", &(gcd_euclid_rec<int64_t>),
+        "Returns the Greatest Common Denominator in between a and b, the recursive euclidean algorithm",
+        py::arg("a"), py::arg("b")
+    );
 }
+
+#endif

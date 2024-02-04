@@ -35,32 +35,40 @@ Presenta tus resultados en una memoria, con las características descritas en el
 
 ## Instalation and execution
 
-### Compiler
+1. Create a Python virtual enviroment in the `venv` folder.
+    ```bash
+    python3 -m venv ./venv
+    ```
+2. Activate the venv
+   - Linux:
+        ```bash
+        source venv/bin/activate
+        ```
+    - Windows:
+        ```powershell
+        \venv\Scripts\activate
+        ```
+3. Install the dependencies
+   ```
+   pip install -r requirements.txt
+   ```
+4. Build the C++ libraries. This will install the modules in your venv.
+    - Linux:
+        ```bash
+        cd build/
+        cmake ..
+        make
+        ```
+    - Windows
+        ```powershell
+        cd build/
+        cmake .. -G Ninja
+        cmake --build .
+        ```
+5. Run the scripts
+    ```
+    python3 src/gcd/test.py
+    ```
+
+### C++ Compiler
 For the compiler, we recomend GCC >= 11, as we use some C++20 & C++23 features.
-
-### Linux
-```bash
-# compile
-cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make
-```
-```bash
-# run
-src/gcd/gcd_factorize
-src/gcd/gcd_euclid
-```
-
-
-### Windows
-```powershell
-# compile
-cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -G Ninja
-cmake --build . --target all
-```
-```powershell
-# run
-src\gcd\gcd_factorize
-src\gcd\gcd_euclid
-```

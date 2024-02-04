@@ -1,3 +1,5 @@
+#include "gcd.hpp"
+
 #include <iostream>
 #include <cmath>
 #include <concepts>
@@ -6,38 +8,6 @@
 #include <chrono>
 
 
-
-template <std::integral INT_T>
-/**
-* @brief Returns the Greatest Common Denominator in between a and b
-*/
-INT_T gcd_euclid(INT_T a, INT_T b) {
-    if (a == b) return a;
-
-    while (b > 0) {
-        INT_T r = a % b;
-
-        // gcd_euclid(m, r)
-        a = b;
-        b = r;
-    }
-
-    return a;
-}
-
-
-template <std::integral INT_T>
-/**
-* @brief Returns the Greatest Common Denominator in between a and b
-*/
-INT_T gcd_euclid_rec(INT_T a, INT_T b) {
-    if (b == 0) return a;
-
-    return gcd_euclid_rec(b, a % b);
-}
-
-
-/* TESTS */
 
 template <std::integral INT_T>
 void check_many(INT_T max) {
@@ -78,7 +48,7 @@ template <std::integral INT_T>
 void check_one(INT_T a, INT_T b) {
     std::cout << "a=" << a << "; b=" << b << "\n";
     std::cout << "std::gcd: " << std::gcd(a, b) << "; ";
-    std::cout << "gcd_euclid: " << gcd_euclid(a, b) << "\n";
+    std::cout << "gcd_euclid: " << gcd_euclid<INT_T>(a, b) << "\n";
 }
 
 

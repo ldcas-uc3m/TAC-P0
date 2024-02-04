@@ -3,6 +3,10 @@ cmake_minimum_required(VERSION 3.22)
 
 project(p0 LANGUAGES CXX)
 
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
 # C++ Config
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -20,5 +24,5 @@ if (CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION LESS 11.0)
 endif()
 
 
-# include targets
+# compile libs
 add_subdirectory(src/gcd)
