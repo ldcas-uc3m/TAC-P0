@@ -24,13 +24,16 @@ if (WIN32)
 endif ()
 
 if (UNIX)
-    exec_program (
-        ${PYTHON_EXECUTABLE}
-        ARGS "-c \"print('venv/lib/' + 'python' + '.'.join('${PYTHON_VERSION}'.split('.')[:-1]) + '/site-packages')\""
-        OUTPUT_VARIABLE GCDLIB_OUTPUT_DIRECTORY
-    )
+    if (NOT DEFINED ${PYTHON_EXECUTABLE})
+        set (GCDLIB_OUTPUT_DIRECTORY "src/gcd")
+    else()
+        exec_program (
+            ${PYTHON_EXECUTABLE}
+            ARGS "-c \"print('venv/lib/' + 'python' + '.'.join('${PYTHON_VERSION}'.split('.')[:-1]) + '/site-packages')\""
+            OUTPUT_VARIABLE GCDLIB_OUTPUT_DIRECTORY
+        )
+    endif()
 endif ()
-
 
 # output module to site-packages folder
 set_target_properties (

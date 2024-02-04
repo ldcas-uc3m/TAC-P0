@@ -76,6 +76,8 @@ INT_T gcd_factorize(INT_T a, INT_T b) {
 
     INT_T res = 1;
 
+    // TODO: see which one has less factors, iterate through that
+
     for (const auto & [factor, exponent] : factors_m) {
         if (factors_n.contains(factor))
             res *= std::pow(factor, std::min(exponent, factors_n[factor]));
