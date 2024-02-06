@@ -38,9 +38,9 @@ int check_many(INT_T max) {
             return -1;
         }
     }
+    auto toc = std::chrono::high_resolution_clock::now();
 
     std::cout << "all good!\n";
-    auto toc = std::chrono::high_resolution_clock::now();
     std::cout << "took " << std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic).count() << "ms\n";
 
 
@@ -65,9 +65,9 @@ int check_many(INT_T max) {
         }
     }
 
-    std::cout << "all good!\n";
-
     toc = std::chrono::high_resolution_clock::now();
+
+    std::cout << "all good!\n";
     std::cout << "took " << std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic).count() << "ms\n";
 
     return 0;

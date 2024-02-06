@@ -13,7 +13,8 @@ FetchContent_Declare (
 FetchContent_MakeAvailable (pybind11)
 
 # create module
-pybind11_add_module (gcdlib gcdlib.cpp)
+pybind11_add_module (primeslib primeslib.cpp)
+target_compile_definitions(primeslib PUBLIC PYBIND11)  # enable pybind in gcdlib.cpp
 
 
 
@@ -24,7 +25,7 @@ endif ()
 
 if (UNIX)
     if (NOT DEFINED ${PYTHON_EXECUTABLE})
-        set (GCDLIB_OUTPUT_DIRECTORY "src/gcd")
+        set (GCDLIB_OUTPUT_DIRECTORY "src/primes")
     else()
         exec_program (
             ${PYTHON_EXECUTABLE}
@@ -36,7 +37,7 @@ endif ()
 
 # output module to site-packages folder
 set_target_properties (
-    gcdlib
+    primeslib
     PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/${GCDLIB_OUTPUT_DIRECTORY}"
 )
@@ -47,9 +48,9 @@ set_target_properties (
 # CPP LIBRARY
 # --------
 
-add_library(gcd INTERFACE gcd.hpp)
+add_library(primes INTERFACE primes.hpp)
 
 # add compilation targets
-add_executable (test_gcd "test.cpp")
-target_link_libraries (test_gcd PRIVATE gcd)
+add_executable(test_primes "test.cpp")
+target_link_libraries (test_primes PRIVATE primes)
 
