@@ -1,12 +1,17 @@
-import matplotlib
-
-import gcdlib
-
 from time import perf_counter
 import random
+
 import matplotlib.pyplot as plt
 
+import gcdlib
+import primeslib
+
+print(primeslib.MAX_UINT)
+print(primeslib.is_prime(17131175322357111317))
+
 #print(gcdlib.gcd_factorize(24, 36))
+
+
 
 def calc_performance():
    

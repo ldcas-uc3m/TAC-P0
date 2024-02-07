@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 
     switch (argc) {
         case 1:
-            check_random(-1ULL);
+            check_random(-1ZU);
             return 0;
 
         case 2:

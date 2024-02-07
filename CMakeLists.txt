@@ -25,5 +25,4 @@ endif()
 
 
 # compile libs
-add_subdirectory(src/gcd)
-add_subdirectory(src/primes)
+add_subdirectory(src)

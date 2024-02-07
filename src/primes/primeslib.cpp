@@ -16,7 +16,7 @@ PYBIND11_MODULE(primeslib, m) {
 
     m.doc() = "C++ primes checker implementation";
 
-    m.attr("MAX_UINT") = py::cast(-1ULL);
+    m.attr("MAX_UINT") = py::cast(-1ZU);
 
     // functions
     m.def(
