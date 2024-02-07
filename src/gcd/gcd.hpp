@@ -2,27 +2,21 @@
 #define GCD_HPP
 
 
-#include <iostream>
 #include <cmath>
 #include <concepts>
 #include <map>
-#include <stdexcept>
-#include <string>
-#include <random>
-#include <chrono>
 
 
 
-template <std::integral INT_T>
+template <std::integral UINT_T>
 /**
 * @brief Returns the prime factorials of a natural number n, and their exponents (frequency)
 */
-std::map<INT_T, INT_T> factorize(INT_T n) {
-    if (n <= 0) throw std::invalid_argument("n must be bigger than 0");
+std::map<UINT_T, int> _factorize(UINT_T n) {
 
-    INT_T i = 2;
-    std::map<INT_T, INT_T> factors {};  // prime factors and their exponents
+    std::map<UINT_T, int> factors {};  // prime factors and their exponents
 
+    UINT_T i = 2;  // current factor
     while (n > 1) {
         if (n % i == 0) {  // found a prime factor
 
@@ -41,14 +35,21 @@ std::map<INT_T, INT_T> factorize(INT_T n) {
 }
 
 
-template <std::integral INT_T>
+// std::abs with support for unsigned ints
+template <std::unsigned_integral UINT_T>
+constexpr UINT_T _abs(UINT_T n) { return n; }
+
+template <std::integral UINT_T>
+constexpr UINT_T _abs(UINT_T n) { return std::abs(n); }
+
+
+template <std::integral UINT_T>
 /**
 * @brief Returns the Greatest Common Denominator in between a and b
 */
-INT_T gcd_factorize(INT_T a, INT_T b) {
+UINT_T gcd_factorize(const UINT_T a, const UINT_T b) {
 
     // base cases
-
     if (b == 0)
         return a;
 
@@ -58,25 +59,25 @@ INT_T gcd_factorize(INT_T a, INT_T b) {
     if (a == b)
         return a;
 
-    if ((a <= 1) || (b <= 1))
-        return 1;
-
-
-    // figure out biggest and smallest number
-    INT_T n = std::max(a, b);
-    INT_T m = std::min(a, b);
-
 
     // get factors for both numbers
-    std::map<INT_T, INT_T> factors_n = factorize(n);
-    std::map<INT_T, INT_T> factors_m = factorize(m);
+    std::map<UINT_T, int> factors_a = _factorize(_abs(a));
+    std::map<UINT_T, int> factors_b = _factorize(_abs(b));
 
+
+    // set up `n` and `m` so `m` is the one with smallest number of factors
+    std::map<UINT_T, int> factors_n, factors_m;
+    if (factors_a.size() > factors_b.size()) {
+        factors_n = std::move(factors_a);
+        factors_m = std::move(factors_b);
+    }
+    else {
+        factors_n = std::move(factors_b);
+        factors_m = std::move(factors_a);
+    }
 
     // go through the factors of m, if it's a common factor, multiply the result by the factor to the smallest exponent
-
-    INT_T res = 1;
-
-    // TODO: see which one has less factors, iterate through that
+    UINT_T res = 1;
 
     for (const auto & [factor, exponent] : factors_m) {
         if (factors_n.contains(factor))
@@ -87,15 +88,15 @@ INT_T gcd_factorize(INT_T a, INT_T b) {
 }
 
 
-template <std::integral INT_T>
+template <std::integral UINT_T>
 /**
 * @brief Returns the Greatest Common Denominator in between a and b
 */
-INT_T gcd_euclid(INT_T a, INT_T b) {
+UINT_T gcd_euclid(UINT_T a, UINT_T b) {
     if (a == b) return a;
 
     while (b > 0) {
-        INT_T r = a % b;
+        UINT_T r = a % b;
 
         // gcd_euclid(m, r)
         a = b;
@@ -106,11 +107,11 @@ INT_T gcd_euclid(INT_T a, INT_T b) {
 }
 
 
-template <std::integral INT_T>
+template <std::integral UINT_T>
 /**
 * @brief Returns the Greatest Common Denominator in between a and b
 */
-INT_T gcd_euclid_rec(INT_T a, INT_T b) {
+UINT_T gcd_euclid_rec(UINT_T a, UINT_T b) {
     if (b == 0) return a;
 
     return gcd_euclid_rec(b, a % b);

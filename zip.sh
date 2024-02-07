@@ -21,7 +21,7 @@ cd ..
 
 # zip it (excluding useless stuff)
 echo "Zipping..."
-zip -r $OUTFILE . -x zip.sh report/\* \*.git\* img/\* README.md
+zip -r $OUTFILE . -x zip.sh report/\* \*.git\* img/\* venv/\* LICENSE README.md
 
 # cleanup
 echo "Cleaning up..."
