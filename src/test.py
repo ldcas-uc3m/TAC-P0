@@ -27,11 +27,12 @@ def primes_perf():
 
     n = random.randint(minN, maxN)
 
-    while maxN < sys.maxsize:
+    while maxN < primeslib.MAX_UINT:
         counter = 0
         times = []
 
-        while counter < 9:
+        while counter < 900:
+            n = random.randint(minN, maxN)
             inicio_tiempo = perf_counter()
             resultado_actual = primeslib.is_prime(n)
             fin_tiempo = perf_counter()
@@ -44,10 +45,9 @@ def primes_perf():
         minN = maxN
         maxN = maxN*10
 
-        print(f"Iteración: IsPrime({n}) = {resultado_actual}")
+        print(f"Iteración {len(str(maxN))}: {n}")
         print(f"Tiempo de ejecución: {fin_tiempo - inicio_tiempo} segundos\n")
 
-        n = random.randint(minN, maxN)
 
     return numeros, tiempos
 
@@ -96,12 +96,12 @@ def plot_performance(numeros, tiempos, function):
 
     # Mostrar el gráfico
     if function == 'gcd':
-        plt.savefig('../report/img/scatter_plot_gcd.png')
+        plt.savefig('report/img/scatter_plot_gcd.png')
     else:
-        plt.savefig('../report/img/scatter_plot_primes.png')
+        plt.savefig('report/img/scatter_plot_primes.png')
 
 
-def save_csv(numbers, times, filename='../data/output_gcd.csv'):
+def save_csv(numbers, times, filename='data/output_gcd.csv'):
 
     data = zip(numbers, times)
     # Write to CSV file
@@ -111,7 +111,7 @@ def save_csv(numbers, times, filename='../data/output_gcd.csv'):
         csv_writer.writerows(data)  # Write data
 
 
-def save_csv2(numbers, times, filename='../data/output_primes.csv'):
+def save_csv2(numbers, times, filename='data/output_primes.csv'):
 
     data = zip(numbers, times)
     # Write to CSV file

@@ -21,6 +21,18 @@ Por lo tanto, el algoritmo diseñado para comprobar si un número natural $n$ es
 
 La implementación usada, en C++, se puede encontrar en \href{run:./src/primes/primes.hpp}{\texttt{src/primes/primes.hpp}} (función \texttt{is\_prime}).
 
+\section{Implementación}
+\subsection{Tests Funcionamiento }
+Para comprobar el correcto funcionamiento de los algoritmos implementados, se han llevado a cabo una batería de tests, tanto para verificar que los resultados obtenidos son correctos, como para poder evaluar el rendimiento de ejecución para differentes tamaños de números
+
+
+\subsubsection{Test funcionales}
+
+Con estos test lo que se busca es probar que el algoritmo desarrollado funciona correctamente para ello se ha prubado a ejecutar con números que previamente se conoce si son primos o no. En todos los casos se han obtenido resultados correctos por lo que se puede concluir que funciona correctamente
+\begin{figure}[H]
+			\makebox[\textwidth][c]{\includegraphics[width=5cm]{img/uc3m_logo.png}}
+\end{figure}
+  
 
 \section{Evaluación analítica}
 \subsection{Test de primalidad}
@@ -39,7 +51,16 @@ La memoria es independiente del tamaño del problema, por lo que la complejidad 
 
 
 \section{Evaluación empírica}
-\subsection{Test de primalidad}
 
+Para evaluar el rendimeinto, se ha ejecutado el programa en todo el rango de valores posibles que permite el sistema, desde números unidígito, hasta lo máximo posible que permite el sistema, en este caso números de 20 digitos. Para obtener dicho número máximo, se emplea la variable \texttt{MAX\_UINT} que retona el mayor número posible de computa en C++.\\
+\\
+Para cada longitud de numeros se calculan un total de 900 numeros aleatorios y se aplica la función a cada uno de ellos para saber si es primo, de tal forma que se obtiene la media de tiempo de ejecución para dicha longitud de número, de esta manera se busca obtener resultados lo más fiable posibles.\\
+
+
+Una vez obtenidos los resultado indicados previamente, se guardan en formato CSV y se representan gráficamente mediante la librería 'matplotlib'. Dicha representacion gŕfica resulta de gran utilidad para comprobar como el tiempo de ejecución se mantiene etable con pequeñas variaciones para número de hasta 15 digitos, de ahí en adelante se aprecia que acada aumento de tamaño de número se trduce en un aumento cada vez más significativo en el tiempo de ejecución 
+
+\begin{figure}[H]
+	\makebox[\textwidth][c]{\includegraphics[width=15cm]{img/scatter_plot_primes.png}}
+\end{figure}
 
 \newpage
