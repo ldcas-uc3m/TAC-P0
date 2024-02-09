@@ -1,55 +1,63 @@
+import sys 
 from time import perf_counter
 import random
+import csv
+from statistics import mean
 
 import matplotlib.pyplot as plt
+import pandas as pd
 
 import gcdlib
 import primeslib
 
-import csv
-
-import sys 
-
-from statistics import mean
-
-#print(primeslib.MAX_UINT)
-#print(gcdlib.gcd_factorize(24, 36))
 
 
 
-def primes_perf():
+ITERATIONS = 69
 
-    numeros = []
-    tiempos = []
+
+
+def perf_tests() -> pd.DataFrame:
+    """
+    Tests the performance of functions.
+
+    :return:
+    """
+
+    df = pd.DataFrame(columns = ['n', 'time', 'order','result'])
 
     minN = 0
     maxN = 9
 
-    n = random.randint(minN, maxN)
-
     while maxN < primeslib.MAX_UINT:
         counter = 0
-        times = []
 
-        while counter < 900:
+        while counter < ITERATIONS:
             n = random.randint(minN, maxN)
-            inicio_tiempo = perf_counter()
+            tic = perf_counter()
             resultado_actual = primeslib.is_prime(n)
-            fin_tiempo = perf_counter()
-            times.append(fin_tiempo - inicio_tiempo)
+            toc = perf_counter()
+
+            df.append(
+                {
+                    'n': n,
+                    'time': toc - tic,
+                    'order': len(str(maxN)),
+                    'result': resultado_actual
+                }
+            )
+
             counter+=1
 
-        numeros.append(len(str(maxN)))
-        tiempos.append(mean(times))
-
+        # update N
         minN = maxN
         maxN = maxN*10
 
         print(f"Iteración {len(str(maxN))}: {n}")
-        print(f"Tiempo de ejecución: {fin_tiempo - inicio_tiempo} segundos\n")
+        print(f"Tiempo de ejecución: {toc - tic} segundos\n")
 
 
-    return numeros, tiempos
+    return df
 
 
 def calc_performance():
@@ -122,17 +130,19 @@ def save_csv2(numbers, times, filename='data/output_primes.csv'):
 
 
 
-perf_results_primes, perf_times_primes = primes_perf()
+if __name__ == "__main__":
 
-#perf_results_gcd, perf_times_gcd = calc_performance()
+    results_df = perf_tests()
+
+    #perf_results_gcd, perf_times_gcd = calc_performance()
 
 
-# Crear gráfico de dispersión
-#plot_performance(perf_results_gcd, perf_times_gcd, 'gcd')
-plot_performance(perf_results_primes, perf_times_primes, 'primes')
+    # Crear gráfico de dispersión
+    #plot_performance(perf_results_gcd, perf_times_gcd, 'gcd')
+    plot_performance(perf_results_primes, perf_times_primes, 'primes')
 
-#save_csv(perf_results_gcd, perf_times_gcd)
-save_csv2(perf_results_primes, perf_times_primes)
+    #save_csv(perf_results_gcd, perf_times_gcd)
+    save_csv2(perf_results_primes, perf_times_primes)
 
 
 
