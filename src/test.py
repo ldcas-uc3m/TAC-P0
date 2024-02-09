@@ -96,12 +96,12 @@ def plot_performance(numeros, tiempos, function):
 
     # Mostrar el gráfico
     if function == 'gcd':
-        plt.savefig('scatter_plot_gcd.png')
+        plt.savefig('../report/img/scatter_plot_gcd.png')
     else:
-        plt.savefig('scatter_plot_primes.png')
+        plt.savefig('../report/img/scatter_plot_primes.png')
 
 
-def save_csv(numbers, times, filename='output_gcd.csv'):
+def save_csv(numbers, times, filename='../data/output_gcd.csv'):
 
     data = zip(numbers, times)
     # Write to CSV file
@@ -111,7 +111,7 @@ def save_csv(numbers, times, filename='output_gcd.csv'):
         csv_writer.writerows(data)  # Write data
 
 
-def save_csv2(numbers, times, filename='output_primes.csv'):
+def save_csv2(numbers, times, filename='../data/output_primes.csv'):
 
     data = zip(numbers, times)
     # Write to CSV file

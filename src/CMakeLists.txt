@@ -26,12 +26,12 @@ endif ()
 
 if (UNIX)
     if (NOT DEFINED ${PYTHON_EXECUTABLE})
-        set (GCDLIB_OUTPUT_DIRECTORY "src/gcd")
+        set (PYBIND11_MODULE_OUTPUT_DIRECTORY "src")
     else()
         exec_program (
-            ${PYTHON_EXECUTABLE}
+            "${PYTHON_EXECUTABLE}"
             ARGS "-c \"print('venv/lib/' + 'python' + '.'.join('${PYTHON_VERSION}'.split('.')[:-1]) + '/site-packages')\""
-            OUTPUT_VARIABLE GCDLIB_OUTPUT_DIRECTORY
+            OUTPUT_VARIABLE PYBIND11_MODULE_OUTPUT_DIRECTORY
         )
     endif()
 endif ()
