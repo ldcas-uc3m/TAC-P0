@@ -1,8 +1,5 @@
-import sys 
 from time import perf_counter
 import random
-import csv
-from statistics import mean
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -12,8 +9,9 @@ import primeslib
 
 
 
-
-ITERATIONS = 69
+ITERATIONS = 420
+IMAGES_OUTPUT_FOLDER = "report/img"
+CSV_OUTPUT_FOLDER = "data"
 
 
 
@@ -38,7 +36,7 @@ def perf_tests() -> pd.DataFrame:
             resultado_actual = primeslib.is_prime(n)
             toc = perf_counter()
 
-            df.append(
+            results = pd.Series(
                 {
                     'n': n,
                     'time': toc - tic,
@@ -46,6 +44,9 @@ def perf_tests() -> pd.DataFrame:
                     'result': resultado_actual
                 }
             )
+
+            # update df
+            df.loc[len(df)] = results
 
             counter+=1
 
@@ -57,76 +58,24 @@ def perf_tests() -> pd.DataFrame:
         print(f"Tiempo de ejecución: {toc - tic} segundos\n")
 
 
-    return df
-
-
-def calc_performance():
-   
-    numeros = []
-    tiempos = []
-
-    minN = 0
-    maxN = 10
-    a = random.randint(minN, maxN)
-    b = random.randint(minN, maxN)
-
-
-    while maxN < sys.maxsize:
-        inicio_tiempo = perf_counter()
-        resultado_actual = gcdlib.gcd_factorize(a, b)
-        fin_tiempo = perf_counter()
-
-        numeros.append(len(str(maxN)))
-        tiempos.append(fin_tiempo - inicio_tiempo)
-
-        print(f"Iteración: MCD({a}, {b}) = {resultado_actual}")
-        print(f"Tiempo de ejecución: {fin_tiempo - inicio_tiempo} segundos\n")
-
-        minN = maxN
-        maxN = maxN*10
-
-        a = random.randint(minN, maxN)
-        b = random.randint(minN, maxN)
-
-    return numeros, tiempos
+    return df.sort_values(by='n', ignore_index=True)
 
 
 
-def plot_performance(numeros, tiempos, function):
+
+def plot_performance(numeros, tiempos, filename: str, title: str, xlabel: str, ylabel: str):
     
     plt.figure(figsize=(6, 4))
 
     # Crear un gráfico de dispersión
     plt.plot(numeros, tiempos, marker='o', color='blue', linestyle='-')
-    plt.title('Relación entre Longitud del Número y Tiempo de Ejecución')
-    plt.xlabel('Longitud del Número')
-    plt.ylabel('Tiempo de Ejecución (segundos)')
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
 
     # Mostrar el gráfico
-    if function == 'gcd':
-        plt.savefig('report/img/scatter_plot_gcd.png')
-    else:
-        plt.savefig('report/img/scatter_plot_primes.png')
+    plt.savefig(f'{IMAGES_OUTPUT_FOLDER}/{filename}.png')
 
-
-def save_csv(numbers, times, filename='data/output_gcd.csv'):
-
-    data = zip(numbers, times)
-    # Write to CSV file
-    with open(filename, 'w', newline='') as csvfile:
-        csv_writer = csv.writer(csvfile)
-        csv_writer.writerow(['Number', 'Time'])  # Write header
-        csv_writer.writerows(data)  # Write data
-
-
-def save_csv2(numbers, times, filename='data/output_primes.csv'):
-
-    data = zip(numbers, times)
-    # Write to CSV file
-    with open(filename, 'w', newline='') as csvfile:
-        csv_writer = csv.writer(csvfile)
-        csv_writer.writerow(['Number', 'Time'])  # Write header
-        csv_writer.writerows(data)  # Write data
 
 
 
@@ -134,15 +83,32 @@ if __name__ == "__main__":
 
     results_df = perf_tests()
 
-    #perf_results_gcd, perf_times_gcd = calc_performance()
+    results_df.to_csv(f'{CSV_OUTPUT_FOLDER}/output_primes.csv')
+
+    #results_df = pd.read_csv(f'{CSV_OUTPUT_FOLDER}/output_primes.csv')
+
+    avg = results_df.groupby('order')['time'].mean()  # average per order
+
+    plot_performance(
+        avg.index,
+        avg.values,
+        filename='scatter_plot_primes',
+        title='Relación entre Longitud del Número y Tiempo de Ejecución',
+        xlabel='Longitud del Número',
+        ylabel='Tiempo de Ejecución (segundos)'
+    )
+
+    primes = results_df.loc[results_df['result'] == True]  # only true values
+    plot_performance(
+        primes['n'],
+        primes['time'],
+        filename='scatter_plot_primes_only_primes',
+        title='Relación entre números primos y Tiempo de Ejecución',
+        xlabel='n',
+        ylabel='Tiempo de Ejecución (segundos)'
+    )
 
 
-    # Crear gráfico de dispersión
-    #plot_performance(perf_results_gcd, perf_times_gcd, 'gcd')
-    plot_performance(perf_results_primes, perf_times_primes, 'primes')
-
-    #save_csv(perf_results_gcd, perf_times_gcd)
-    save_csv2(perf_results_primes, perf_times_primes)
 
 
 
