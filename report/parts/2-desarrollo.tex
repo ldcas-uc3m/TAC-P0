@@ -59,10 +59,16 @@ Para cada longitud de numeros se calculan un total de 400 numeros aleatorios y s
 
 Una vez obtenidos los resultado indicados previamente, se guardan en formato CSV y se representan gráficamente mediante la librería 'matplotlib'. Dicha representacion gráfica resulta de gran utilidad para comprobar como el tiempo de ejecución se mantiene estable con pequeñas variaciones para números de hasta 15 digitos, de ahí en adelante se aprecia que cada aumento de tamaño de número se traduce en un aumento cada vez más significativo en el tiempo de ejecución\\
 
-Pese a que el grafico muestre una distribución de resultados logarítmica, esto se debe a que la escala muestra en el eje x el numero de digitos de los números, por lo tanto la escala no avanza de manera lineal ya que por cada digito que aumenta, la cantidad de números aumenta en mayor medida que para el número de digtos previo. Es por ello, que pese a que se muestre una distribución logarítmica, si la escala empleada para mostrar el gráfico fuese lineal se mostraría el grafico de manera lienal
+Pese a que el grafico muestre una distribución de resultados logarítmica, esto se debe a que la escala muestra en el eje x el numero de digitos de los números, por lo tanto la escala no avanza de manera lineal ya que por cada digito que aumenta, la cantidad de números aumenta en mayor medida que para el número de digtos previo. Es por ello, que pese a que se muestre una distribución logarítmica, si la escala empleada para mostrar el gráfico fuese lineal se mostraría el grafico de manera lineal. A continuación se incluye dicho grafico:
 
 \begin{figure}[H]
 	\makebox[\textwidth][c]{\includegraphics[width=15cm]{img/scatter_plot_primes.png}}
 \end{figure}
+
+Adicionalmente al grafico previo, se incluye el gráfico recogiendo los tiempos de ejecución únicamente para los números primos, donde se observa que la tendencia cambia mostrando un incremento de tiempo de ejecución más pronunciado desde el comienzo.
+\begin{figure}[H]
+	\makebox[\textwidth][c]{\includegraphics[width=15cm]{img/scatter_plot_primes_only_primes.png}}
+\end{figure}
+
 
 \newpage
