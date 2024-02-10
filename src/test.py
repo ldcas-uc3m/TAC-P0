@@ -14,6 +14,38 @@ IMAGES_OUTPUT_FOLDER = "report/img"
 CSV_OUTPUT_FOLDER = "data"
 
 
+def funct_tests() -> pd.DataFrame:
+    """
+    Tests the performance of functions.
+
+    :return:
+    """
+
+    df = pd.DataFrame(columns = ['n', 'time', 'order','result'])
+
+    counter = 0
+
+    while counter < 21:
+
+        tic = perf_counter()
+        resultado_actual = primeslib.is_prime(counter)
+        toc = perf_counter()
+
+        results = pd.Series(
+            {
+                'n': counter,
+                'time': toc - tic,
+                'order': len(str(counter)),
+                'result': resultado_actual
+            }
+        )
+        df.loc[len(df)] = results
+        counter += 1
+
+    return df
+    
+
+
 
 def perf_tests() -> pd.DataFrame:
     """
@@ -83,7 +115,12 @@ if __name__ == "__main__":
 
     results_df = perf_tests()
 
+    #funct_df = funct_tests()
+
     results_df.to_csv(f'{CSV_OUTPUT_FOLDER}/output_primes.csv')
+
+    #funct_df.to_csv(f'{CSV_OUTPUT_FOLDER}/output_primes_fucnt_test.csv')
+
 
     #results_df = pd.read_csv(f'{CSV_OUTPUT_FOLDER}/output_primes.csv')
 
@@ -107,8 +144,6 @@ if __name__ == "__main__":
         xlabel='n',
         ylabel='Tiempo de Ejecución (segundos)'
     )
-
-
 
 
 
