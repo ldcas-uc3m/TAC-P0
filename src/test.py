@@ -1,5 +1,6 @@
 from time import perf_counter
 import random
+from typing import Callable
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -47,35 +48,48 @@ def funct_tests() -> pd.DataFrame:
 
 
 
-def perf_tests() -> pd.DataFrame:
+def perf_tests(fn: Callable, max: int, nargs: int = 1, iterations: int = ITERATIONS) -> pd.DataFrame:
     """
-    Tests the performance of functions.
+    Tests the performance of functions, giving them random int arguments up to `max`.
 
-    :return:
+    :param fn: function to test
+    :param nargs: number of arguments of the function.
+    :param iterations: number of iterations per digit.
+
+    :return: DataFrame with colums {'a': arg a, ..., 'time': time it took to compute, 'order': number of digits, 'result': result}
     """
 
-    df = pd.DataFrame(columns = ['n', 'time', 'order','result'])
+    columns = [ chr(ord('a') + i) for i in range(nargs) ]
+    columns.extend(['time', 'order','result'])
+
+    df = pd.DataFrame(columns = columns)
 
     minN = 0
     maxN = 9
 
-    while maxN < primeslib.MAX_UINT:
+    while maxN < max:
         counter = 0
 
-        while counter < ITERATIONS:
-            n = random.randint(minN, maxN)
+        while counter < iterations:
+            args = [ random.randint(minN, maxN) for _ in range(nargs) ]
+
             tic = perf_counter()
-            resultado_actual = primeslib.is_prime(n)
+            resultado_actual = fn(*args)
             toc = perf_counter()
 
-            results = pd.Series(
+            results_dict = {  # {'a': args[0], ...}
+                chr(ord('a') + i): args[i]
+                for i in range(nargs)
+            }
+
+            results_dict.update(
                 {
-                    'n': n,
                     'time': toc - tic,
                     'order': len(str(maxN)),
                     'result': resultado_actual
                 }
             )
+            results = pd.Series(results_dict)
 
             # update df
             df.loc[len(df)] = results
@@ -86,11 +100,11 @@ def perf_tests() -> pd.DataFrame:
         minN = maxN
         maxN = maxN*10
 
-        print(f"Iteración {len(str(maxN))}: {n}")
+        print(f"Iteración {len(str(maxN))}: {args}")
         print(f"Tiempo de ejecución: {toc - tic} segundos\n")
 
 
-    return df.sort_values(by='n', ignore_index=True)
+    return df
 
 
 
@@ -105,6 +119,9 @@ def plot_performance(numeros, tiempos, filename: str, title: str, xlabel: str, y
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
 
+    plt.xticks(range(int(min(numeros)), int(max(numeros))+1))
+    plt.yticks(range(int(min(tiempos)), int(max(tiempos))+1))
+
     # Mostrar el gráfico
     plt.savefig(f'{IMAGES_OUTPUT_FOLDER}/{filename}.png')
 
@@ -113,37 +130,54 @@ def plot_performance(numeros, tiempos, filename: str, title: str, xlabel: str, y
 
 if __name__ == "__main__":
 
-    results_df = perf_tests()
+    # PRIMES
 
-    #funct_df = funct_tests()
+    # results_df = perf_tests(primeslib.is_prime, primeslib.MAX_UINT).sort_values(by='a', ignore_index=True).rename(columns={'a': 'n'})
 
-    results_df.to_csv(f'{CSV_OUTPUT_FOLDER}/output_primes.csv')
+    # funct_df = funct_tests()
 
-    #funct_df.to_csv(f'{CSV_OUTPUT_FOLDER}/output_primes_fucnt_test.csv')
+    # results_df.to_csv(f'{CSV_OUTPUT_FOLDER}/output_primes.csv')
+
+    # funct_df.to_csv(f'{CSV_OUTPUT_FOLDER}/output_primes_fucnt_test.csv')
 
 
-    #results_df = pd.read_csv(f'{CSV_OUTPUT_FOLDER}/output_primes.csv')
+    # results_df = pd.read_csv(f'{CSV_OUTPUT_FOLDER}/output_primes.csv')
+
+    # avg = results_df.groupby('order')['time'].mean()  # average per order
+
+    # plot_performance(
+    #     avg.index,
+    #     avg.values,
+    #     filename='scatter_plot_primes',
+    #     title='Relación entre Longitud del Número y Tiempo de Ejecución',
+    #     xlabel='Longitud del Número',
+    #     ylabel='Tiempo de Ejecución (segundos)'
+    # )
+
+    # primes = results_df.loc[results_df['result'] == True]  # only true values
+    # plot_performance(
+    #     primes['n'],
+    #     primes['time'],
+    #     filename='scatter_plot_primes_only_primes',
+    #     title='Relación entre números primos y Tiempo de Ejecución',
+    #     xlabel='n',
+    #     ylabel='Tiempo de Ejecución (segundos)'
+    # )
+
+
+    # GCD
+
+    
+    results_df = perf_tests(gcdlib.gcd_factorize, 10e8, nargs=2, iterations=50).sort_values(by='a', ignore_index=True)
 
     avg = results_df.groupby('order')['time'].mean()  # average per order
-
     plot_performance(
         avg.index,
         avg.values,
-        filename='scatter_plot_primes',
+        filename='scatter_plot_gcd',
         title='Relación entre Longitud del Número y Tiempo de Ejecución',
         xlabel='Longitud del Número',
         ylabel='Tiempo de Ejecución (segundos)'
     )
-
-    primes = results_df.loc[results_df['result'] == True]  # only true values
-    plot_performance(
-        primes['n'],
-        primes['time'],
-        filename='scatter_plot_primes_only_primes',
-        title='Relación entre números primos y Tiempo de Ejecución',
-        xlabel='n',
-        ylabel='Tiempo de Ejecución (segundos)'
-    )
-
 
 

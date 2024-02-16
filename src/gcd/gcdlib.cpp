@@ -15,6 +15,8 @@ PYBIND11_MODULE(gcdlib, m) {
 
     m.doc() = "C++ Greatest Common Denominator implementations";
 
+    m.attr("MAX_INT") = py::cast(INT64_MAX);
+
     // functions
     m.def(
         "gcd_factorize", &(gcd_factorize<int64_t>),
