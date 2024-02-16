@@ -120,7 +120,8 @@ def plot_performance(numeros, tiempos, filename: str, title: str, xlabel: str, y
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
 
-    plt.xticks(range(len(numeros)), [str(n) for n in numeros])
+    # Fix the X axis
+    plt.xticks(range(1, len(numeros)+1), [str(n) for n in numeros])
 
     # Mostrar el gráfico
     plt.savefig(f'{IMAGES_OUTPUT_FOLDER}/{filename}.png')
@@ -155,9 +156,11 @@ if __name__ == "__main__":
     )
 
     primes = results_df.loc[results_df['result'] == True]  # only true values
+    avgprimes = primes.groupby('order')['time'].mean()  # average per order
+
     plot_performance(
-        primes['n'],
-        primes['time'],
+        avgprimes.index,
+        avgprimes.values,
         filename='scatter_plot_primes_only_primes',
         title='Relación entre números primos y Tiempo de Ejecución',
         xlabel='n',
@@ -168,9 +171,16 @@ if __name__ == "__main__":
     #GCD
 
     
-    results_df = perf_tests(gcdlib.gcd_factorize, 10e8, nargs=2, iterations=50).sort_values(by='a', ignore_index=True)
+    results_df = perf_tests(gcdlib.gcd_euclid, primeslib.MAX_UINT, nargs=2).sort_values(by='a', ignore_index=True)
+
+    # Transform into int to represent the number of digits without zeroes 1.0 -> 1
+    results_df['order'] = results_df['order'].astype(int)
 
     avg = results_df.groupby('order')['time'].mean()  # average per order
+
+    print(avg.index)
+    print(avg.values)
+
     plot_performance(
         avg.index,
         avg.values,
