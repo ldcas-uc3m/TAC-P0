@@ -1,0 +1,13 @@
+\section{Evaluación analítica}
+\subsection{Test de primalidad}
+
+Teniendo en cuenta el algoritmo descrito anteriormente, podemos calcular analíticamente el coste del mismo.\\
+Asumiendo cualquier coste no dependiente del tamaño del número de entrada $n$ como constante, el coste del algoritmo viene derivado del paso 2, el cual es un bucle que se repite en el peor de los casos $(\left \lfloor \sqrt{n} \right \rfloor - 3)/2$ veces, por lo que podemos decir que la complejidad temporal es:
+\begin{equation}
+    T(n) = \frac{\left \lfloor \sqrt{n} \right \rfloor - 3}{2}
+\end{equation}
+
+La memoria es independiente del tamaño del problema, por lo que la complejidad temporal es:
+\begin{equation}
+    S(n) = 1
+\end{equation}
