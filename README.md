@@ -58,16 +58,18 @@ Presenta tus resultados en una memoria, con las características descritas en el
         cd build/
         cmake ..
         make
+        cd ..
         ```
     - Windows
         ```powershell
         cd build/
         cmake .. -G Ninja
         cmake --build .
+        cd ..
         ```
-5. Run the scripts
+5. Run the script.
     ```
-    python3 src/gcd/test.py
+    python3 src/test.py
     ```
 
 ### C++ Compiler

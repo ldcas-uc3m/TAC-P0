@@ -1,10 +1,11 @@
 \section{Evaluación empírica}
 
-Para evaluar el rendimeinto, se ha ejecutado el programa en todo el rango de valores posibles que permite el sistema, desde números unidígito, hasta lo máximo posible, en este caso números de 20 digitos. Para obtener dicho número máximo, se emplean la variables \texttt{primeslib.MAX\_UINT} y \texttt{gcdlib.MAX\_INT} que retonan el mayor número posible de computar para cada librería.\\
+Para evaluar el rendimeinto, se ha usado el \textit{script} de Python \href{run:./src/test.py}{\texttt{src/test.py}}.\\
+Se ha ejecutado cada función en todo el rango de valores posibles que permite el sistema, desde números un dígito, hasta lo máximo posible, en este caso números de 20 digitos. Para obtener dicho número máximo, se emplean la variables \texttt{primeslib.MAX\_UINT} y \texttt{gcdlib.MAX\_INT} que retonan el mayor número posible de computar para cada librería.\\
 \\
 Para cada longitud de numeros se calculan un total de 400 numeros aleatorios y se aplica la función a cada uno de ellos para determinar si son primos. Así se obtiene la media de tiempo de ejecución para dicha longitud de número, buscando obtener resultados lo más fiables posible, evitando así que los casos extremos distorsionen dichos resultados.\\
 
-Una vez obtenidos los resultado indicados previamente, se guardan en formato CSV y se representan gráficamente mediante la librería \href{https://matplotlib.org/}{matplotlib}.
+Una vez obtenidos los resultado indicados previamente, se guardan en formato CSV en la carpeta \texttt{data/} y se representan gráficamente mediante la librería \href{https://matplotlib.org/}{matplotlib}.
 
 \subsection{Test de primalidad}
 Se comprueba como el tiempo de ejecución se mantiene estable con pequeñas variaciones para números de hasta 15 digitos, de ahí en adelante se aprecia que cada aumento de tamaño de número se traduce en un aumento cada vez más significativo en el tiempo de ejecución.\\

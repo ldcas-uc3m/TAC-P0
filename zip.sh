@@ -2,7 +2,7 @@
 # Bash script to zip the whole project in order to make it deriverable
 # please make sure zip, pv and texlive are installed
 
-OUTFILE="../EP1 - 3-Arnaiz-Casais.zip"
+OUTFILE="../EP2-3-Arnaiz-Casais.zip"
 
 
 # compile the report (and save it to root folder)
@@ -15,7 +15,7 @@ cp report/report.pdf .
 
 # zip it (excluding useless stuff)
 echo "Zipping..."
-zip -r "$OUTFILE" . -x zip.sh report/\* \*.git\* img/\* venv/\* build/\* .vscode/\* LICENSE README.md
+zip -r "$OUTFILE" . -x zip.sh report/\* \*.git\* img/\* venv/\* build/\* .vscode/\* LICENSE
 
 # cleanup
 echo "Cleaning up..."
