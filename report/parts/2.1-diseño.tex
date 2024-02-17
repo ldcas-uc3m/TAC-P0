@@ -19,6 +19,66 @@ Por lo tanto, el algoritmo diseñado para comprobar si un número natural $n$ es
 La implementación usada, en C++, se puede encontrar en \href{run:./src/primes/primes.hpp}{\texttt{src/primes/primes.hpp}} (función \texttt{is\_prime}).
 
 
-\subsection{Calculo de Máximo común divisor}
+\subsection{Calculo de Máximo Común Divisor}
 
+El máximo común divisor de dos números naturales distintos de $0$, $a$ y $b$, es el mayor número natural que es divisor de ambos.\\
+\\
+Hemos usado dos algoritmos distintos para resolver este problema: descomposición en factores primos y el método de Euclides.
+
+\subsubsection{Descomposición en factores primos}
+
+Un número natural se puede descomponer en sus factores primos, es decir, se puede expresar como el producto de sus divisores primos elevados a algún número natural:
+
+\begin{gather*}
+    a = \prod p_n^{q_n} \\ 
+    q_n \in \mathbb{N}^+,\ p_n \in \mathbb{N}_p
+\end{gather*}
+
+Siendo $p_n^{q_n}$ un factor primo de $a$.\\
+\\
+El MCD es el producto de los factores comunes elevados al menor de los exponentes.
+\begin{gather*}
+    MCD(a, b) = \prod min(p_{a,n}^{q_{a,n}},\ p_{b,n}^{q_{b,n}}) \\ 
+    q_n \in \mathbb{N}^+,\ p_n \in \mathbb{N}_p
+\end{gather*}
+\\
+Por lo tanto, el algoritmo es el siguiente:
+\begin{enumerate}
+    \item Si $a=b$, el resultado es $a$.
+    \item Factorizar $a$ y $b$:
+    \item Guardar $2$ en el resultado.
+    \item El número tenga el menor número de factores será $m$, el otro será $n$.
+    \item Por cada factor de $m$:
+    \begin{enumerate}
+        \item Si $n$ también cuenta con ese factor, añadir (multiplicar) el factor con el mínimo exponente al resultado.
+    \end{enumerate}
+\end{enumerate}
+
+El algoritmo de factorización de un número $n$ es:
+\begin{enumerate}
+    \item Guardar $2$ en $i$.
+    \item Mientras $n$ sea mayor que $1$:
+    \begin{enumerate}
+        \item Si $n$ es divisible entre $i$:
+        \begin{enumerate}
+            \item Si $i$ está en la lista de factores, sumar $1$ a su exponente. En caso contrario, insertar $i$ en la lista de factores, con exponente $1$.
+            \item Dividir $n$ entre $i$ y guardarlo en $n$.
+        \end{enumerate}
+        \item En caso contrario aumentar $i$ en 1.
+    \end{enumerate}
+\end{enumerate}
+
+
+\subsubsection{Método de Euclides}
+
+% TODO: explain stuff
+
+\begin{enumerate}
+    \item Si $a=b$, el resultado es $a$.
+    \item Mientras $b$ sea mayor que $0$:
+    \begin{enumerate}
+        \item Calcular el resto entre $a$ y $b$
+        \item Guardar $b$ en $a$ y el resto en $b$
+    \end{enumerate}
+\end{enumerate}
 

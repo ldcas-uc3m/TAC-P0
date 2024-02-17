@@ -44,9 +44,9 @@ Presenta tus resultados en una memoria, con las características descritas en el
         ```bash
         source venv/bin/activate
         ```
-    - Windows:
+    - Windows (PowerShell):
         ```powershell
-        \venv\Scripts\activate
+        & .\venv\Scripts\Activate.ps1
         ```
 3. Install the dependencies
    ```
@@ -72,3 +72,5 @@ Presenta tus resultados en una memoria, con las características descritas en el
 
 ### C++ Compiler
 For the compiler, we recomend GCC >= 11, as we use some C++20 & C++23 features.
+
+If you're in Windows, we recommend you to instal [WSL2](https://learn.microsoft.com/es-es/windows/wsl/install) and run "in Linux", or use GCC through [MinGW-W64](https://www.mingw-w64.org/), you can find compiled binaries [here](https://github.com/niXman/mingw-builds-binaries).
