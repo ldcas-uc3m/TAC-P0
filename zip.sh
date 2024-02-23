@@ -2,7 +2,7 @@
 # Bash script to zip the whole project in order to make it deriverable
 # please make sure zip, pv and texlive are installed
 
-OUTFILE="../EP2-3-Arnaiz-Casais.zip"
+OUTFILE="../EPF-3-Arnaiz-Casais.zip"
 
 
 # compile the report (and save it to root folder)

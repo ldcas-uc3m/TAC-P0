@@ -16,7 +16,35 @@ La memoria es independiente del tamaño del problema, por lo que la complejidad 
 \subsection{Calculo de Máximo Común Divisor}
 
 \subsubsection{Descomposición en factores primos}
-TBD
+Podemos dividir este algoritmo en dos: el algoritmo de factorización y el algoritmo general.\\
+
+Para la factorización de $n$, el peor caso es que $n$ sea un número primo, en el cual el bucle del paso 2 se ejecutaría $n$ veces, por lo que la complejidad temporal sería $T(n) = n$. La complejidad espacial en este caso depende del número de factores de $n$, que es el número de primos menores que $n$, es decir, $S(n) = \pi(n)$.\\
+
+En el algoritmo principal, el peor caso es el mismo que el peor caso de la factorización, pues a más factores de $a$ o $b$, más iteraciones del bucle del paso 5, es decir, que el bucle se repite el mismo número de veces que factores de el menor de entre $a$ y $b$, $\pi(n)$, pero en el peor caso esto es $0$, porque $a$ y $b$ son primos. Por lo tanto, la complejidad temporal es:
+\begin{equation}
+    T(n) = 2n
+\end{equation}
+
+La complejidad espacial es la misma que la de la factorización:
+\begin{equation}
+    T(n) = \pi(n)
+\end{equation}
 
 \subsubsection{Método de Euclides}
-TBD
+
+El peor caso para este método es que $a$ y $b$ sean números de Fibonacci consecutivos, lo cual se puede probar por inducción:
+
+\begin{enumerate}
+    \item Para el caso base, asumimos $a = f_2 =2$ y $b = f_1 = 1$, $a \geq b$; el algoritmo llegará al caso base ($a = f_1 = 1$ y $b = 0$) en un paso ($n = 1$).
+    \item Para el caso $n-1$, $b\geq f_{n+1}$. $a\%b \geq f_n$, y $a \geq b + (a \% b) \rightarrow a \geq f_{n+1} + f_n \geq b$.
+\end{enumerate}
+
+Ya que $f_i = \frac{\phi^{i}}{\sqrt{5}}$, $b \geq \phi^{n-1}$, por lo que $n \leq \log_{\phi}{b+1}$. Por lo tanto, la complejidad temporal es:
+\begin{equation}
+    T(n) = \log{n}
+\end{equation}
+
+La memoria es independiente del tamaño del problema, por lo que la complejidad espacial es:
+\begin{equation}
+    S(n) = 1
+\end{equation}

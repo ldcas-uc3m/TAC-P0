@@ -61,8 +61,12 @@ def perf_tests(fn: Callable, max_num: int | float, nargs: int = 1, iterations: i
     :return: DataFrame with colums {'a': arg a, ..., 'time': time it took to compute, 'order': number of digits, 'result': result}
     """
 
-    columns = [ chr(ord('a') + i) for i in range(nargs) ]  # one column per argument: ['a', 'b', ...]
-    columns.extend(['time', 'order','result'])
+    columns = [ 
+        *[ chr(ord('a') + i) for i in range(nargs) ],  # one column per argument: ['a', 'b', ...]
+        'time',
+        'order',
+        'result'
+    ]
 
     df = pd.DataFrame(columns = columns)
 
