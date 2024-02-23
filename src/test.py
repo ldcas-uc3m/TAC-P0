@@ -30,9 +30,11 @@ def funct_tests() -> pd.DataFrame:
 
     for n in pcasos:
 
+        
         tic = perf_counter()
         resultado_actual = primeslib.is_prime(n)
         toc = perf_counter()
+
 
         results = pd.Series(
             {
@@ -151,7 +153,7 @@ def plot_performance(numeros: ArrayLike, tiempos: ArrayLike, filename: str, titl
 
 if __name__ == "__main__":
 
-    # PRIMES
+    # # PRIMES
 
     print("\n--- Testing primeslib.is_prime ---\n")
     results_df = perf_tests(primeslib.is_prime, primeslib.MAX_UINT).sort_values(by='a', ignore_index=True).rename(columns={'a': 'n'})
@@ -183,7 +185,7 @@ if __name__ == "__main__":
         ylabel='Tiempo de Ejecución (segundos)'
     )
 
-
+    # #----- Worst cases for primes
     funct_df = funct_tests()
 
     funct_df.to_csv(f'{CSV_OUTPUT_FOLDER}/output_primes_fucnt_test.csv')
@@ -202,7 +204,11 @@ if __name__ == "__main__":
         pad_bottom=0.4
     )
 
-    # GCD
+
+  
+
+
+    # # GCD
 
     for fn, name, iterations, max_num in [
             (
@@ -239,6 +245,8 @@ if __name__ == "__main__":
             ylabel='Tiempo de Ejecución (segundos)'
         )
 
+    #----- Testeo y representacion de la Fnción teorica de calculo de primalidad
+
     def t_primes (n):
         # tiempo ejecución teórico primeslib.is_prime
         return (math.floor(math.sqrt(n)) - 3) / 2
@@ -252,4 +260,39 @@ if __name__ == "__main__":
         xlabel='Longitud del n',
         ylabel='T(n)'
     )
+
+
+    #----- Testeo y representacion de la Función teorica de calculo de MCD por Descomposicion de Factores
+
+    def t_factorize (n):
+        # tiempo ejecución teórico primeslib.is_prime
+        return n*2
+
+
+    plot_performance(
+        [i+1 for i in range(20)],
+        [t_factorize(10**i) for i in range(20)],
+        filename=f'scatter_plot_gcd_theoretical_factorize',
+        title='Relación entre Longitud del Número y Tiempo de Ejecución Estimado',
+        xlabel='Longitud del n',
+        ylabel='T(n)'
+    )
+
+
+    #----- Testeo y representacion de la Función teorica de calculo de MCD por Euclides
+
+    def t_euclides (n):
+        # tiempo ejecución teórico primeslib.is_prime
+        return math.log10(n)
+
+
+    plot_performance(
+        [i+1 for i in range(20)],
+        [t_euclides(10**i) for i in range(20)],
+        filename=f'scatter_plot_gcd_theoretical_euclid',
+        title='Relación entre Longitud del Número y Tiempo de Ejecución Estimado',
+        xlabel='Longitud del n',
+        ylabel='T(n)'
+    )
+
 
