@@ -1,12 +1,11 @@
 from time import perf_counter
 import random
-from typing import Callable
-import math 
-import numpy as np
+from typing import Callable, Annotated, Iterable
+import math
 
 import matplotlib.pyplot as plt
-from numpy.typing import ArrayLike
 import pandas as pd
+from numpy.typing import ArrayLike
 
 import gcdlib
 import primeslib
@@ -18,21 +17,22 @@ IMAGES_OUTPUT_FOLDER = "report/img"
 CSV_OUTPUT_FOLDER = "data"
 
 
-def funct_tests() -> pd.DataFrame:
+def func_test(fn: Callable, cases: Iterable) -> pd.DataFrame:
     """
-    Tests the performance of functions.
+    Tests the performance of a function given a set of cases.
 
-    :return:
+    :param fn: Function to test.
+    :param cases: Cases to test, passed as arguments to `fn`.
+
+    :return: DataFrame with colums {n, time, order, result}
     """
-    pcasos = [776159, 776161, 98982599, 98982601, 9984605927, 9984605929, 999498062999, 999498063001,99996460031327, 99996460031329, 9999940600088207, 9999940600088209, 999999594000041207, 999999594000041209, 4611685283988009527,4611685283988009529, 9223371593598182327, 9223371593598182329]
 
     df = pd.DataFrame(columns = ['n', 'time', 'order','result'])
 
-    for n in pcasos:
+    for n in cases:
 
-        
         tic = perf_counter()
-        resultado_actual = primeslib.is_prime(n)
+        resultado_actual = fn(n)
         toc = perf_counter()
 
 
@@ -47,7 +47,7 @@ def funct_tests() -> pd.DataFrame:
         df.loc[len(df)] = results
 
     return df
-    
+
 
 
 
@@ -63,7 +63,7 @@ def perf_tests(fn: Callable, max_num: int | float, nargs: int = 1, iterations: i
     :return: DataFrame with colums {'a': arg a, ..., 'time': time it took to compute, 'order': number of digits, 'result': result}
     """
 
-    columns = [ 
+    columns = [
         *[ chr(ord('a') + i) for i in range(nargs) ],  # one column per argument: ['a', 'b', ...]
         'time',
         'order',
@@ -115,7 +115,7 @@ def perf_tests(fn: Callable, max_num: int | float, nargs: int = 1, iterations: i
 
 
 
-def plot_performance(numeros: ArrayLike, tiempos: ArrayLike, filename: str, title: str, xlabel: str, ylabel: str, rotation: int = 0, size: tuple[int, int] = (6, 4), pad_bottom: float | None = None):
+def plot_performance(numeros: ArrayLike, tiempos: ArrayLike, filename: str, title: str, xlabel: str, ylabel: str, rotation: Annotated[int, "Degrees"] = 0, size: tuple[int, int] = (6, 4), pad_bottom: float | None = None, marker: str = 'o'):
     """
     Plots the performance of a function in a matplotlib graph, and saves it to `IMAGES_OUTPUT_FOLDER/filename`.
 
@@ -124,20 +124,20 @@ def plot_performance(numeros: ArrayLike, tiempos: ArrayLike, filename: str, titl
     :param filename: Name of the file to store.
     :param xlabel: Label of X axis (size of problem).
     :param ylabel: Label of Y axis (time).
+    :param rotation: Rotation of ticks, in degrees.
+    :param size: Figure size.
+    :param pad_bottom: Padding at the bottom of the image.
+    :param marker: Matplotlib marker.
     """
 
     plt.figure(figsize=size)
 
-    # Crear un gráfico de dispersión
-
-
     # Create a scatter plot
-    plt.plot(range(len(numeros)), tiempos, marker='o', color='blue')
+    plt.plot(range(len(numeros)), tiempos, marker=marker, color='blue')
 
     # Set ticks explicitly
     plt.xticks(range(len(numeros)), [str(num) for num in numeros], rotation=rotation)
 
-    # plt.plot(numeros, tiempos, marker='o', color='blue', linestyle='-')
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
@@ -153,11 +153,12 @@ def plot_performance(numeros: ArrayLike, tiempos: ArrayLike, filename: str, titl
 
 if __name__ == "__main__":
 
-    # # PRIMES
+    ##########
+    # PRIMES #
+    ##########
 
     print("\n--- Testing primeslib.is_prime ---\n")
     results_df = perf_tests(primeslib.is_prime, primeslib.MAX_UINT).sort_values(by='a', ignore_index=True).rename(columns={'a': 'n'})
-
 
     results_df.to_csv(f'{CSV_OUTPUT_FOLDER}/output_primes.csv')
     # results_df = pd.read_csv(f'{CSV_OUTPUT_FOLDER}/output_primes.csv')
@@ -173,7 +174,7 @@ if __name__ == "__main__":
         ylabel='Tiempo de Ejecución (segundos)'
     )
 
-    primes = results_df.loc[results_df['result'] == True]  # only true values
+    primes = results_df.loc[results_df['result'] == True]  # get primes
     avgprimes = primes.groupby('order')['time'].mean()  # average per order
 
     plot_performance(
@@ -185,13 +186,15 @@ if __name__ == "__main__":
         ylabel='Tiempo de Ejecución (segundos)'
     )
 
-    # #----- Worst cases for primes
-    funct_df = funct_tests()
+    # Worst cases for primes
+    funct_df = func_test(
+        primeslib.is_prime,
+        [776159, 776161, 98982599, 98982601, 9984605927, 9984605929, 999498062999, 999498063001,99996460031327, 99996460031329, 9999940600088207, 9999940600088209, 999999594000041207, 999999594000041209, 4611685283988009527, 4611685283988009529, 9223371593598182327, 9223371593598182329]
+    )
 
     funct_df.to_csv(f'{CSV_OUTPUT_FOLDER}/output_primes_fucnt_test.csv')
     # funct_df = pd.read_csv(f'{CSV_OUTPUT_FOLDER}/output_primes_fucnt_test.csv')
 
-    
     plot_performance(
         funct_df['n'],
         funct_df['time'],
@@ -205,10 +208,10 @@ if __name__ == "__main__":
     )
 
 
-  
 
-
-    # # GCD
+    #######
+    # GCD #
+    #######
 
     for fn, name, iterations, max_num in [
             (
@@ -226,7 +229,6 @@ if __name__ == "__main__":
         ]:
 
         print(f"\n--- Testing gcdlib.gcd_{name} ---\n")
-
         results_df = perf_tests(fn, max, iterations=iterations, nargs=2)
 
         results_df.to_csv(f'{CSV_OUTPUT_FOLDER}/output_gcd_{name}.csv')
@@ -245,7 +247,13 @@ if __name__ == "__main__":
             ylabel='Tiempo de Ejecución (segundos)'
         )
 
-    #----- Testeo y representacion de la Fnción teorica de calculo de primalidad
+
+
+    ###############
+    # THEORETICAL #
+    ###############
+
+    # Testeo y representacion de la Función teorica de calculo de primalidad
 
     def t_primes (n):
         # tiempo ejecución teórico primeslib.is_prime
@@ -257,15 +265,16 @@ if __name__ == "__main__":
         [t_primes(10**i) for i in range(20)],
         filename=f'scatter_plot_primes_theoretical',
         title='Relación entre Longitud del Número y Tiempo de Ejecución Estimado',
-        xlabel='Longitud del n',
-        ylabel='T(n)'
+        xlabel='Longitud de n',
+        ylabel='T(n)',
+        marker=""
     )
 
 
-    #----- Testeo y representacion de la Función teorica de calculo de MCD por Descomposicion de Factores
+    # Testeo y representacion de la Función teorica de calculo de MCD por Descomposicion de Factores
 
     def t_factorize (n):
-        # tiempo ejecución teórico primeslib.is_prime
+        # tiempo ejecución teórico gcdlib.gcd_factorize
         return n*2
 
 
@@ -274,15 +283,16 @@ if __name__ == "__main__":
         [t_factorize(10**i) for i in range(20)],
         filename=f'scatter_plot_gcd_theoretical_factorize',
         title='Relación entre Longitud del Número y Tiempo de Ejecución Estimado',
-        xlabel='Longitud del n',
-        ylabel='T(n)'
+        xlabel='Longitud de n',
+        ylabel='T(n)',
+        marker=""
     )
 
 
-    #----- Testeo y representacion de la Función teorica de calculo de MCD por Euclides
+    # Testeo y representacion de la Función teorica de calculo de MCD por Euclides
 
     def t_euclides (n):
-        # tiempo ejecución teórico primeslib.is_prime
+        # tiempo ejecución teórico gcdlib.gcd_euclid
         return math.log10(n)
 
 
@@ -291,8 +301,9 @@ if __name__ == "__main__":
         [t_euclides(10**i) for i in range(20)],
         filename=f'scatter_plot_gcd_theoretical_euclid',
         title='Relación entre Longitud del Número y Tiempo de Ejecución Estimado',
-        xlabel='Longitud del n',
-        ylabel='T(n)'
+        xlabel='Longitud de n',
+        ylabel='T(n)',
+        marker=""
     )
 
 
