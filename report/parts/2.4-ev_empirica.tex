@@ -16,7 +16,7 @@ Pese a que el grafico muestre una distribución de resultados logarítmica, esto
 	\makebox[\textwidth][c]{\includegraphics[width=15cm]{img/scatter_plot_primes.png}}
 \end{figure}
 
-Una vez obtenidos los resultados empíricos, para poder comparar si dichos resultados obtenidos son correctos se obtiene el graico generado a aprtir de aplicar la función teórica, al igual que en la obtención de resultados previos, a numeros de distinta longitud de dígitos. Pese a que las magnitudes de tiempo meidas no son identicas, porporcionalmente se observa que ambos gráficossiguen tendencias muy similares, por lo que se interpreta que los resultados obtenidos son correctos.
+Una vez obtenidos los resultados empíricos, para poder comparar si dichos resultados obtenidos son correctos se obtiene el graico generado a aprtir de aplicar la función teórica, al igual que en la obtención de resultados previos, con numeros de distinta longitud de dígitos. Pese a que las magnitudes de tiempo medidas no son identicas, porporcionalmente se observa que ambos gráficos siguen tendencias muy similares, por lo que se interpreta que los resultados obtenidos son correctos.
 
 \begin{figure}[H]
 	\makebox[\textwidth][c]{\includegraphics[width=15cm]{img/scatter_plot_primes_theoretical.png}}
@@ -27,7 +27,7 @@ También se incluye el gráfico recogiendo los tiempos de ejecución únicamente
 	\makebox[\textwidth][c]{\includegraphics[width=15cm]{img/scatter_plot_primes_only_primes.png}}
 \end{figure}
 
-Por último se muestra el gráfico generado a aprtir de los resultados obtenidos con casos extremos que requieren tiempos de ejecución mayores a la media, dichos números se han obtenido del listado proporcionado en aulaglobal
+Por último se muestra el gráfico generado a aprtir de los resultados obtenidos con casos extremos que requieren tiempos de ejecución mayores a la media, dichos números se han obtenido a partir del listado proporcionado en aulaglobal
 \begin{figure}[H]
 	\makebox[\textwidth][c]{\includegraphics[width=15cm]{img/scatter_plot_primes_worst_cases.png}}
 \end{figure}
@@ -38,12 +38,12 @@ Por último se muestra el gráfico generado a aprtir de los resultados obtenidos
 \subsection{Cálculo de Máximo Común Divisor}
 
 \subsubsection{Descomposición en factores primos}
-Para este caso, debido al tiempo de ejecución, para esta prueba redujimos el número de iteraciones a 5 y el máximo de dígitos a 11, ya que no a partir de dicho número de dígitos no resultaba viable la ejecución debido, al tiempo que esta requería- Pese a reducir la cantidad de números, se observa una tendencia clara, en como con cada aumento de dígitos aumenta considerablemente 
+Para este caso, debido al tiempo de ejecución, para esta prueba redujimos el número de iteraciones a 5 y el máximo de dígitos a 11, ya que  a partir de dicho número de dígitos no resultaba viable la ejecución debido al tiempo que esta requería. Pese a reducir la cantidad de números, se observa una tendencia clara, en como con cada aumento de dígitos aumenta considerablemente el tiempo de ejecución.
 \begin{figure}[H]
 	\makebox[\textwidth][c]{\includegraphics[width=15cm]{img/scatter_plot_gcd_factorize.png}}
 \end{figure}
 
-Una vez obtenidos los resultados empíricos, se genera el gráfico a parir de la función teórica con el fin de comprobar si los resultados obtenidos son correctos. Efectivamnete se observa como la tendencia en ambos gráficos es muy similar por lo que se puede inferir que los resultados son lo esperado. Puesto que como ya se mencionó previamnete pese a que se muestre una distribución logarítmica, se debe a que el ejer X pese a estar representado de manera lineal la distancai entre dígitos, esta debería ser cada vez mayor puesto que a más digitos más numeros posibles. Es por ello que si se siguese un eje X como el descrito la distribución se mostraría lineal
+Una vez obtenidos los resultados empíricos, se genera el gráfico a parir de la función teórica con el fin de comprobar si los resultados obtenidos son correctos. Efectivamnete se observa como la tendencia en ambos gráficos es muy similar por lo que se puede inferir que los resultados son lo esperado. Puesto que como ya se mencionó previamnete pese a que se muestre una distribución logarítmica, se debe a que el ejer X pese a estar representado de manera lineal la distancia entre dígitos, esta debería ser cada vez mayor puesto que a más digitos más numeros posibles. Es por ello que si se siguese un eje X como el descrito la distribución se mostraría lineal
 \begin{figure}[H]
 	\makebox[\textwidth][c]{\includegraphics[width=15cm]{img/scatter_plot_gcd_theoretical_factorize.png}}
 \end{figure}
@@ -51,7 +51,7 @@ Una vez obtenidos los resultados empíricos, se genera el gráfico a parir de la
 
 
 \subsubsection{Método de Euclides}
-Por último se han realizado las pruebas empíricas con el alrgoritmo de Ecuclides para calcular el máximo común divisor, donde so observan resultados duisparos auqnue una moderada tendencia de incremneto de teimo en función del número de dígitos
+Por último se han realizado las pruebas empíricas con el alrgoritmo de Ecuclides para calcular el máximo común divisor, donde so observan resultados dispares auqnue una moderada tendencia de incremneto de tiempo en función del número de dígitos
 \begin{figure}[H]
 	\makebox[\textwidth][c]{\includegraphics[width=15cm]{img/scatter_plot_gcd_euclid.png}}
 \end{figure}
