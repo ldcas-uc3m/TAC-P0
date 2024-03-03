@@ -1,0 +1,26 @@
+\appendix
+\section{Estructura de los archivos de la práctica}
+
+Los archivos se estructuran de la siguiente forma, por carpetas:
+\begin{itemize}
+    \item \texttt{data/}: Incluye los archivos CSV con los datos de los diferentes tests realizados.
+    \item \texttt{src/}: Incluyen los archivos fuentes del código usado.
+    \begin{itemize}
+        \item \texttt{gcd/}: Archivos fuente de los algoritmos de Máximo Común Divisor.
+        \begin{itemize}
+            \item \texttt{gcd.hpp}: Archivo con la implementación de los algoritmos.
+            \item \texttt{gcdlib.cpp}: Archivo de configuración del módulo para pybind11.
+            \item \texttt{test.cpp}: Archivo fuente en C++ usado para la realización de pruebas durante el desarrollo.
+        \end{itemize}
+        \item \texttt{primes/}: Archivos fuente del algoritmo de test de primalidad.
+        \begin{itemize}
+            \item \texttt{primes.hpp}: Archivo con la implementación del algoritmo.
+            \item \texttt{primeslib.cpp}: Archivo de configuración del módulo para pybind11.
+            \item \texttt{test.cpp}: Archivo fuente en C++ usado para la realización de pruebas durante el desarrollo.
+        \end{itemize}
+        \item \texttt{test.py}: \textit{Script} de Python para la generación de las pruebas y gráficos.
+    \end{itemize}
+    \item \texttt{README.md}: Documento con instrucciones de compilación.
+\end{itemize}
+
+También se cuenta con archivos \texttt{CMakeLists.txt}, los cuales fueron usados para compilar los distintos módulos.
